@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: vre-jupyterlab-extension
-Version: 0.1.3
+Version: 0.1.4
 Summary: VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard
 Home-page: https://github.com/officiallygod/vre-jupyterlab-extension
 Author: VRE Team
@@ -92,6 +92,7 @@ Release checklist and publish flow
 3. Complete the checklist items before merge.
 4. Merge, create and push a tag like `v0.1.4`.
 5. The publish workflow `.github/workflows/extension-publish.yml` publishes to PyPI and GitHub Packages.
+6. Detailed release checklist and commands: see `RELEASE.md`.
 
 Runtime requirements
 
