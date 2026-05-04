@@ -1,6 +1,6 @@
 {
   "name": "@virtmat/vre-jupyterlab-extension",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard.",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -19,19 +19,24 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run clean && tsc -p tsconfig.json && ${PYTHON:-python3} -m jupyter labextension build .",
-    "build:dist": "npm run clean && npm run build && ${PYTHON:-python3} -m pip install build && ${PYTHON:-python3} -m build",
-    "clean": "rm -rf lib labextension tsconfig.tsbuildinfo dist build *.egg-info",
+    "build": "jlpm build:lib && jlpm build:labextension:dev",
+    "build:prod": "jlpm clean && jlpm build:lib:prod && jlpm build:labextension",
+    "build:labextension": "jupyter labextension build .",
+    "build:labextension:dev": "jupyter labextension build --development True .",
+    "build:lib": "tsc --sourceMap",
+    "build:lib:prod": "tsc",
+    "clean": "jlpm clean:lib",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "clean:labextension": "rimraf vre_jupyterlab_extension/labextension vre_jupyterlab_extension/_version.py",
+    "clean:all": "jlpm clean:lib && jlpm clean:labextension",
+    "install:extension": "jlpm build",
     "test": "npm run test:unit",
     "test:unit": "tsc -p tsconfig.json && node --test tests/freeze-state.test.mjs tests/config.test.mjs",
     "test:integration:smoke": "tsc -p tsconfig.json && NODE_OPTIONS=--experimental-specifier-resolution=node node --test tests/integration-smoke.test.mjs",
     "test:integration:full": "npm run test:integration:smoke",
-    "ci:build": "npm run build",
-    "ci:test:unit": "tsc -p tsconfig.json && bash -o pipefail -c \"node --test --test-reporter=tap tests/freeze-state.test.mjs tests/config.test.mjs | tee tests/test-results.tap\"",
-    "ci:test": "npm run ci:test:unit",
-    "ci:summary": "node tests/ci-summary.mjs",
-    "ci": "npm run ci:build && npm run ci:test",
-    "release": "python3 ./scripts/release.py"
+    "watch": "run-p watch:src watch:labextension",
+    "watch:src": "tsc -w --sourceMap",
+    "watch:labextension": "jupyter labextension watch ."
   },
   "keywords": [
     "jupyterlab-extension",
@@ -46,25 +51,9 @@
   },
   "homepage": "https://gitlab.kit.edu/kit/virtmat-tools",
   "jupyterlab": {
-    "extension": "lib/index.js",
-    "outputDir": "labextension",
-    "schemaDir": "schema",
-    "discovery": {
-      "kernel": [
-        {
-          "kernel_spec": {
-            "language": "^vre-language$",
-            "display_name": "(?i).*vre.*"
-          },
-          "base": {
-            "name": "vre-language"
-          },
-          "managers": [
-            "pip"
-          ]
-        }
-      ]
-    }
+    "extension": true,
+    "outputDir": "vre_jupyterlab_extension/labextension",
+    "schemaDir": "schema"
   },
   "peerDependencies": {
     "@jupyterlab/application": "^4.2.0"
@@ -83,6 +72,8 @@
     "@jupyterlab/builder": "^4.2.0",
     "@types/node": "^20.14.0",
     "eslint": "^9.6.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.0",
     "typescript": "^5.5.4"
   }
 }
