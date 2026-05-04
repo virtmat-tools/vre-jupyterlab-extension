@@ -38,9 +38,6 @@ jobs:
       - name: Install Node dependencies
         run: npm ci
 
-      - name: Install JupyterLab Extension Dependencies (jlpm)
-        run: jlpm install
-
       - name: Setup Python
         uses: actions/setup-python@v5.1.0
         with:
