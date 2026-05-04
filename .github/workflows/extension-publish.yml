@@ -75,6 +75,7 @@ jobs:
         run: npm ci
 
       - name: Build JupyterLab Extension Assets
+        working-directory: packages/vre-jupyterlab-extension
         run: npm run build:prod
 
       - name: Verify Python

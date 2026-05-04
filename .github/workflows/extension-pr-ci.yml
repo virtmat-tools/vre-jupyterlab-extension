@@ -61,7 +61,7 @@ jobs:
 
       - name: Build Extension
         run: |
-          npm run build
+          npm run ci:build
 
       - name: Run Basic Tests
         if: always()
