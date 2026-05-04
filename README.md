@@ -3,6 +3,7 @@
 [![CI](https://github.com/officiallygod/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/officiallygod/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-green)](https://officiallygod.github.io/vre-jupyterlab-extension/)
 
 A prebuilt JupyterLab 4 extension that provides CodeMirror 6 highlighting for the VRE DSL and a simple execution guard.
 
@@ -60,6 +61,12 @@ Release checklist and publish flow
 4. Merge, create and push a tag like `v0.1.4`.
 5. The publish workflow `.github/workflows/extension-publish.yml` publishes to PyPI and GitHub Packages.
 6. Detailed release checklist and commands: see `RELEASE.md`.
+
+Documentation
+
+Full documentation is available at https://officiallygod.github.io/vre-jupyterlab-extension/
+
+Local development: run `mkdocs serve` from this directory after installing `requirements_docs.txt`.
 
 Runtime requirements
 
