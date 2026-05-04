@@ -74,8 +74,8 @@ jobs:
       - name: Install JS Dependencies
         run: npm ci
 
-      - name: Install JupyterLab (jlpm)
-        run: npx jlpm install
+      - name: Install JupyterLab Extension Dependencies (jlpm)
+        run: jlpm install
 
       - name: Build JupyterLab Extension Assets
         working-directory: packages/vre-jupyterlab-extension
