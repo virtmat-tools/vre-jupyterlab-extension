@@ -1,32 +1,25 @@
-from __future__ import annotations
+"""Setup configuration for the JupyterLab extension using jupyter-packaging.
 
-import shutil
+This file avoids importing submodules that may not exist during PEP 517
+isolation and only uses `ensure_targets` to include the prebuilt assets.
+"""
+
 from pathlib import Path
 
+from jupyter_packaging.setupbase import ensure_targets
 from setuptools import setup
 from setuptools.command.build_py import build_py as _build_py
 
-ROOT = Path(__file__).parent.resolve()
-
 
 class build_py(_build_py):
-    """Copy the prebuilt labextension into the importable package before wheel build."""
+    """Ensure labextension and install.json are included in the wheel."""
 
-    def run(self) -> None:
+    def run(self):
+        ensure_targets([
+            str(Path(__file__).parent / "vre_jupyterlab_extension" / "labextension"),
+            str(Path(__file__).parent / "install.json"),
+        ])
         super().run()
-        self._copy_labextension_assets()
-
-    def _copy_labextension_assets(self) -> None:
-        package_root = Path(self.build_lib) / "vre_jupyterlab_extension"
-        package_root.mkdir(parents=True, exist_ok=True)
-
-        for source_name in ["labextension", "install.json"]:
-            source = ROOT / source_name
-            destination = package_root / source_name
-            if source.is_dir():
-                shutil.copytree(source, destination, dirs_exist_ok=True)
-            elif source.exists():
-                shutil.copy2(source, destination)
 
 
 setup(cmdclass={"build_py": build_py})
