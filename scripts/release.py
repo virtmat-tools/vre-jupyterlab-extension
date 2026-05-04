@@ -79,7 +79,11 @@ def rm_rf(path: Path):
 
 def run(cmd, cwd=None, check=True):
     print("$", " ".join(cmd))
-    subprocess.run(cmd, cwd=cwd or ROOT, check=check)
+    try:
+        subprocess.run(cmd, cwd=cwd or ROOT, check=check)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: Command failed with exit code {e.returncode}")
+        raise
 
 
 def clean_builds(root: Path):
@@ -126,8 +130,6 @@ def main():
         print("jlpm install failed at repo root; continuing with local build")
 
     print("Regenerating package-lock.json outside monorepo context...")
-    import tempfile
-    import shutil
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_pkg = Path(tmpdir) / "package.json"
         tmp_lock = Path(tmpdir) / "package-lock.json"
@@ -150,7 +152,7 @@ def main():
     run(["jlpm", "build:prod"], cwd=ROOT, check=True)
 
     print("Building Python distributions (wheel and sdist)...")
-    run(["python3", "-m", "pip", "install", "--upgrade", "build"], cwd=ROOT)
+    run(["python3", "-m", "pip", "install", "--upgrade", "build"])
     run(["python3", "-m", "build", "--wheel", "--sdist"], cwd=ROOT)
 
     print("Release flow completed. Commit and tag if desired.")
