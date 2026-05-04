@@ -1,0 +1,11 @@
+site_name: VRE JupyterLab Extension
+site_description: Documentation for the VRE JupyterLab Extension
+site_author: VRE Team
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Extension: extension.md
+theme:
+  name: material
+plugins: []
+repo_url: https://github.com/officiallygod/vre-jupyterlab-extension
