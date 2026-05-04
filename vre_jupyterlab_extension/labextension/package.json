@@ -1,6 +1,6 @@
 {
   "name": "@virtmat/vre-jupyterlab-extension",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard.",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -19,8 +19,9 @@
     "LICENSE"
   ],
   "scripts": {
+    "release": "python3 ./scripts/release.py",
     "build": "jlpm build:lib && jlpm build:labextension:dev",
-    "build:prod": "jlpm clean && jlpm build:lib:prod && jlpm build:labextension",
+    "build:prod": "jlpm install && jlpm clean && jlpm build:lib:prod && jlpm build:labextension",
     "build:labextension": "jupyter labextension build .",
     "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc --sourceMap",
@@ -55,7 +56,7 @@
     "outputDir": "vre_jupyterlab_extension/labextension",
     "schemaDir": "schema",
     "_build": {
-      "load": "static/remoteEntry.a5a6c12a1638dfdae392.js",
+      "load": "static/remoteEntry.82e234efe0d08dae0ba4.js",
       "extension": "./extension",
       "style": "./style"
     }

@@ -2,13 +2,14 @@
 """Package-local release helper: update package version, clean builds, and rebuild.
 
 Run this from `packages/vre-jupyterlab-extension` or via `npm run release`.
-It prompts for a new version, updates `package.json`, `setup.cfg`, `__init__.py`, and `pyproject.toml` (if present),
-cleans build artifacts under the package, runs `npm ci`, builds the frontend, and builds the Python wheel/sdist.
+It prompts for a new semantic version, updates `package.json`, `setup.cfg`, `__init__.py`, and `pyproject.toml`,
+cleans build artifacts, refreshes the repo workspace, runs `jlpm build:prod`, and builds the Python wheel/sdist.
 """
 import json
 import re
 import shutil
 import subprocess
+import tempfile
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -116,17 +117,45 @@ def main():
     print("Cleaning build artifacts in extension package...")
     clean_builds(ROOT)
 
-    print("Rebuilding frontend and packaging wheel...")
+    # Ensure root workspace is initialized for monorepo build
+    repo_root = ROOT.parent.parent
+    print(f"Refreshing workspace root at {repo_root}...")
     try:
-        run(["npm", "ci"], cwd=ROOT)
+        run(["jlpm", "install"], cwd=repo_root, check=False)
     except Exception:
-        print("npm ci failed or npm not available; continuing")
-    run(["npm", "run", "build"], cwd=ROOT, check=False)
+        print("jlpm install failed at repo root; continuing with local build")
 
+    print("Regenerating package-lock.json outside monorepo context...")
+    import tempfile
+    import shutil
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_pkg = Path(tmpdir) / "package.json"
+        tmp_lock = Path(tmpdir) / "package-lock.json"
+        shutil.copy(ROOT / "package.json", tmp_pkg)
+        try:
+            run(["npm", "install", "--package-lock-only", "--ignore-scripts"], cwd=tmpdir, check=True)
+            shutil.copy(tmp_lock, ROOT / "package-lock.json")
+            print(f"  → Updated package-lock.json at {ROOT / 'package-lock.json'}")
+        except Exception as e:
+            print(f"  Warning: package-lock.json regeneration failed: {e}")
+    
+    # Refresh yarn.lock at repo root after npm changes
+    print(f"Refreshing workspace lock at {repo_root}...")
+    try:
+        run(["jlpm", "install"], cwd=repo_root, check=False)
+    except Exception:
+        print("jlpm install at repo root failed; continuing anyway")
+
+    print("Building frontend with jlpm build:prod...")
+    run(["jlpm", "build:prod"], cwd=ROOT, check=True)
+
+    print("Building Python distributions (wheel and sdist)...")
     run(["python3", "-m", "pip", "install", "--upgrade", "build"], cwd=ROOT)
     run(["python3", "-m", "build", "--wheel", "--sdist"], cwd=ROOT)
 
-    print("Package-local release flow completed. Commit and tag if desired.")
+    print("Release flow completed. Commit and tag if desired.")
+    print(f"  Dist artifacts in: {ROOT / 'dist'}")
+    print(f"  Tagged as: v{version}")
 
 
 if __name__ == "__main__":
