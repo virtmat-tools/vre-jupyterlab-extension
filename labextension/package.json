@@ -1,6 +1,6 @@
 {
   "name": "@virtmat/vre-jupyterlab-extension",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard.",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.json && ${PYTHON:-python3} -m jupyter labextension build .",
-    "build:dist": "npm run build && ${PYTHON:-python3} -m build",
+    "build:dist": "npm run clean && npm run build && ${PYTHON:-python3} -m pip install build && ${PYTHON:-python3} -m build",
     "clean": "rm -rf lib labextension tsconfig.tsbuildinfo dist build *.egg-info",
     "test": "npm run test:unit",
     "test:unit": "tsc -p tsconfig.json && node --test tests/freeze-state.test.mjs tests/config.test.mjs",
@@ -66,7 +66,7 @@
       ]
     },
     "_build": {
-      "load": "static/remoteEntry.221629462c787975bc8a.js",
+      "load": "static/remoteEntry.0454d7708daaf10e4a47.js",
       "extension": "./extension",
       "style": "./style"
     }
