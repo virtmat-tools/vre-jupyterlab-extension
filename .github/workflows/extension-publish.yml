@@ -75,7 +75,7 @@ jobs:
         run: npm ci
 
       - name: Install JupyterLab (jlpm)
-        run: jlpm install
+        run: npx jlpm install
 
       - name: Build JupyterLab Extension Assets
         working-directory: packages/vre-jupyterlab-extension

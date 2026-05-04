@@ -43,7 +43,7 @@ jobs:
         run: npm ci
 
       - name: Install JupyterLab (jlpm)
-        run: jlpm install
+        run: npx jlpm install
 
       - name: Setup Python
         uses: actions/setup-python@v5.1.0
