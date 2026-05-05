@@ -1,6 +1,76 @@
 [build-system]
-requires = ["jupyter_packaging>=0.12,<2", "setuptools>=61", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.2.0,<5", "hatch-jupyter-builder>=0.5"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vre-jupyterlab-extension"
+version = "0.1.7"
+description = "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions",
+    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+dependencies = [
+    "jupyterlab>=4.2,<5",
+]
+
+[project.urls]
+Repository = "https://github.com/officiallygod/vre-jupyterlab-extension"
+Issues = "https://github.com/officiallygod/vre-jupyterlab-extension/issues"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/vre_jupyterlab_extension",
+    "/src",
+    "/schema",
+    "/style",
+    "/lib",
+    "/tsconfig.json",
+    "/package.json",
+    "/README.md",
+    "/LICENSE",
+]
+exclude = [".github", "binder", "tests"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"vre_jupyterlab_extension/labextension" = "share/jupyter/labextensions/vre-jupyterlab-extension"
+"install.json" = "share/jupyter/labextensions/vre-jupyterlab-extension/install.json"
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.5"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "vre_jupyterlab_extension/labextension/static/style.js",
+    "vre_jupyterlab_extension/labextension/package.json",
+]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build:prod"
+npm = ["npm"]
+build_dir = "vre_jupyterlab_extension/labextension"
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "install:extension"
+npm = ["npm"]
+source_dir = "src"
+build_dir = "vre_jupyterlab_extension/labextension"
 
 [tool.ruff]
 line-length = 100

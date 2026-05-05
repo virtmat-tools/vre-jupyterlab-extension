@@ -59,9 +59,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install jupyterlab
 
+      - name: Install JS Dependencies
+        run: npm ci
+
       - name: Build Extension
         run: |
-          npm run build
+          npm run ci:build
 
       - name: Run Basic Tests
         if: always()

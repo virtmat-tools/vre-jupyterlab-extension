@@ -74,8 +74,9 @@ jobs:
       - name: Install JS Dependencies
         run: npm ci
 
+
       - name: Build JupyterLab Extension Assets
-        run: npm run build
+        run: npm run build:prod
 
       - name: Verify Python
         run: |

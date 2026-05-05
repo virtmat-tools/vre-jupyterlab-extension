@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 
-__version__ = "0.1.5"
+__version__ = "0.1.7"
 
 
 def _jupyter_labextension_paths():
@@ -14,13 +14,13 @@ def _jupyter_labextension_paths():
     if not src_prefix.exists():
         src_prefix = (
             Path(sys.prefix)
-            / "share/jupyter/labextensions/@virtmat/vre-jupyterlab-extension"
+            / "share/jupyter/labextensions/vre-jupyterlab-extension"
         )
 
     return [
         {
             "src": str(src_prefix),
-            "dest": "@virtmat/vre-jupyterlab-extension",
+            "dest": "vre-jupyterlab-extension",
         }
     ]
 
