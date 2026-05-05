@@ -105,17 +105,21 @@ def clean_builds(root: Path):
 
 
 def refresh_repo_workspace(repo_root: Path):
-    if (repo_root / "package-lock.json").exists():
-        run(["npm", "ci"], cwd=repo_root, check=True)
-        return
+    # During release, package versions change first; refresh lockfiles/workspaces
+    # with npm install so npm does not fail on a stale package-lock.
     run(["npm", "install"], cwd=repo_root, check=True)
 
 
 def build_frontend(root: Path):
-    if shutil.which("jlpm"):
-        run(["jlpm", "build:prod"], cwd=root, check=True)
+    # This repository is npm-lock based; prefer npm to avoid jlpm/yarn lock drift.
+    try:
+        run(["npm", "run", "build:prod"], cwd=root, check=True)
         return
-    run(["npm", "run", "build:prod"], cwd=root, check=True)
+    except subprocess.CalledProcessError:
+        if shutil.which("jlpm"):
+            run(["jlpm", "build:prod"], cwd=root, check=True)
+            return
+        raise
 
 
 def main():
