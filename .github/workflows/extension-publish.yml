@@ -76,9 +76,7 @@ jobs:
 
 
       - name: Build JupyterLab Extension Assets
-        run: |
-          ls -la
-          npm --prefix packages/vre-jupyterlab-extension run build:prod
+        run: npm run build:prod
 
       - name: Verify Python
         run: |

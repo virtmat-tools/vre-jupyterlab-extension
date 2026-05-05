@@ -53,9 +53,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://gitlab.kit.edu/kit/virtmat-tools"
+    "url": "https://github.com/officiallygod/vre-jupyterlab-extension"
   },
-  "homepage": "https://gitlab.kit.edu/kit/virtmat-tools",
+  "homepage": "https://github.com/officiallygod/vre-jupyterlab-extension",
   "jupyterlab": {
     "extension": true,
     "outputDir": "vre_jupyterlab_extension/labextension",
