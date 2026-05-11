@@ -7,7 +7,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { activateExecutionGuard, refreshExecutionGuard } from './execution/execution-guard';
 import { createVreLanguageExtension } from './language/vre-language';
 import { attachNotebookMimeSync, refreshNotebookMime } from './notebook/mime-sync';
-import { COMMANDS, LANGUAGE, PLUGIN_ID, SETTINGS } from './config/constants';
+import { COMMANDS, LANGUAGE, PLUGIN_ID, SETTINGS, UI } from './config/constants';
 import { DEFAULT_LANGUAGE_OPTIONS } from './config/defaults';
 import '../style/index.css';
 
@@ -100,6 +100,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 		/** Toggle readonly styling for already executed cells. */
 		app.commands.addCommand(COMMANDS.toggleReadonlyDesign, {
 			label: 'VRE: Toggle Cell Readonly Design',
+			iconClass: UI.logoIconClass,
 			isToggled: () => showReadonlyDesign(),
 			execute: async () => {
 				state.cellReadonlyDesignEnabled = !state.cellReadonlyDesignEnabled;
@@ -111,6 +112,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 		/** Toggle the whole extension on or off. */
 		app.commands.addCommand(COMMANDS.toggleExtension, {
 			label: 'VRE: Toggle Extension',
+			iconClass: UI.logoIconClass,
 			isToggled: () => isOn(),
 			execute: async () => {
 				state.enabled = !state.enabled;

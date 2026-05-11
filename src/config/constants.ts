@@ -13,6 +13,11 @@ export const COMMANDS = {
   toggleExtension: `${PLUGIN_ID}:toggle-extension`
 } as const;
 
+/** UI constants used for icon styling hooks in command definitions. */
+export const UI = {
+  logoIconClass: 'vre-jupyterlab-extension__logoIcon'
+} as const;
+
 /** Language-related constants for VRE CodeMirror integration. */
 export const LANGUAGE = {
   mime: 'text/x-vre',

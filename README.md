@@ -1,5 +1,7 @@
 # vre-jupyterlab-extension
 
+![VRE logo](https://raw.githubusercontent.com/officiallygod/vre/main/vre-language/src/virtmat/language/kernel/logo-64x64.png)
+
 [![CI](https://github.com/officiallygod/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/officiallygod/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
