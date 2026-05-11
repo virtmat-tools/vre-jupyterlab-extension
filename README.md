@@ -1,6 +1,6 @@
 # vre-jupyterlab-extension
 
-![VRE logo](https://raw.githubusercontent.com/officiallygod/vre/main/vre-language/src/virtmat/language/kernel/logo-64x64.png)
+![VRE logo](https://raw.githubusercontent.com/officiallygod/vre-jupyterlab-extension/refs/heads/main/style/vre-logo-64x64.png)
 
 [![CI](https://github.com/officiallygod/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/officiallygod/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
@@ -77,6 +77,9 @@ Runtime requirements
 Notes
 
 - The wheel includes `labextension/` and `install.json`; `setup.py` copies these assets into the wheel during the build step.
+
+PyPI Repository:
+[vre-jupyterlab-extension](https://pypi.org/project/vre-jupyterlab-extension/)
 
 Contributing
 
