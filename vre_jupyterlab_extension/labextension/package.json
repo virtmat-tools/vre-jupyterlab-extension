@@ -1,6 +1,6 @@
 {
   "name": "vre-jupyterlab-extension",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard.",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -24,8 +24,8 @@
     "release": "python3 ./scripts/release.py",
     "build": "npm run build:lib && npm run build:labextension:dev",
     "build:prod": "npm run clean && npm run build:lib:prod && npm run build:labextension",
-    "build:labextension": "jupyter labextension build .",
-    "build:labextension:dev": "jupyter labextension build --development True .",
+    "build:labextension": "PATH=.venv/bin:$PATH jupyter labextension build .",
+    "build:labextension:dev": "PATH=.venv/bin:$PATH jupyter labextension build --development True .",
     "build:lib": "tsc --sourceMap",
     "build:lib:prod": "tsc",
     "clean": "npm run clean:lib",
@@ -44,7 +44,7 @@
     "test:integration:full": "npm run test:integration:smoke",
     "watch": "run-p watch:src watch:labextension",
     "watch:src": "tsc -w --sourceMap",
-    "watch:labextension": "jupyter labextension watch ."
+    "watch:labextension": "PATH=.venv/bin:$PATH jupyter labextension watch ."
   },
   "keywords": [
     "jupyterlab-extension",
@@ -63,7 +63,7 @@
     "outputDir": "vre_jupyterlab_extension/labextension",
     "schemaDir": "schema",
     "_build": {
-      "load": "static/remoteEntry.4421724ec6e4ffb404e5.js",
+      "load": "static/remoteEntry.c3b5ad961c5c6fa55576.js",
       "extension": "./extension",
       "style": "./style"
     }
