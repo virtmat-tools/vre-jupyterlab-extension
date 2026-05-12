@@ -12,7 +12,7 @@ A prebuilt JupyterLab 4 extension that provides CodeMirror 6 highlighting for th
 
 Why this package
 
-- No Node tooling required for end users — the wheel embeds the prebuilt labextension assets.
+- No Node tooling required for end users as the wheel embeds the prebuilt labextension assets.
 - Installable via pip and ready to use in a JupyterLab environment.
 
 Quick install
