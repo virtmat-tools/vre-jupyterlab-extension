@@ -10,7 +10,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "style": "style/index.css",
-  "icon": "style/vre-logo-64x64.png",
+  "icon": "style/vre-logo.png",
   "files": [
     "lib/**/*",
     "labextension/**",
@@ -55,9 +55,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/officiallygod/vre-jupyterlab-extension"
+    "url": "https://github.com/virtmat-tools/vre-jupyterlab-extension"
   },
-  "homepage": "https://github.com/officiallygod/vre-jupyterlab-extension",
+  "homepage": "https://github.com/virtmat-tools/vre-jupyterlab-extension",
   "jupyterlab": {
     "extension": true,
     "outputDir": "vre_jupyterlab_extension/labextension",

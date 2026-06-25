@@ -10,7 +10,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "style": "style/index.css",
-  "icon": "style/vre-logo-64x64.png",
+  "icon": "style/vre-logo.png",
   "files": [
     "lib/**/*",
     "labextension/**",
