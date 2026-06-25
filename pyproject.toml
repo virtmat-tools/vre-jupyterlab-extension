@@ -32,8 +32,8 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/officiallygod/vre-jupyterlab-extension"
-Issues = "https://github.com/officiallygod/vre-jupyterlab-extension/issues"
+Repository = "https://github.com/virtmat-tools/vre-jupyterlab-extension"
+Issues = "https://github.com/virtmat-tools/vre-jupyterlab-extension/issues"
 
 [tool.hatch.build.targets.sdist]
 include = [

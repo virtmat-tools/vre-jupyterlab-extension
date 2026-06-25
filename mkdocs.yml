@@ -8,4 +8,4 @@ nav:
 theme:
   name: material
 plugins: []
-repo_url: https://github.com/officiallygod/vre-jupyterlab-extension
+repo_url: https://github.com/virtmat-tools/vre-jupyterlab-extension
