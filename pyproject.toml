@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "vre-jupyterlab-extension"
-version = "0.1.12"
+version = "0.1.13"
 description = "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard"
 readme = "README.md"
 license = { file = "LICENSE" }
