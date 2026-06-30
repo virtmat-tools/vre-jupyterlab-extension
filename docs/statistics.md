@@ -1,44 +1,42 @@
 # Package Statistics
 
-This page tracks the release cadence and version history of the VRE JupyterLab Extension directly from the Python Package Index (PyPI).
+This page tracks the download history of the VRE JupyterLab Extension directly from the Python Package Index (PyPI).
 
 <div style="width: 100%; max-width: 800px; margin: 3rem auto; background: var(--md-default-bg-color); padding: 1rem; border-radius: 8px; box-shadow: var(--md-shadow-z1);">
-  <canvas id="releasesChart"></canvas>
+  <canvas id="downloadsChart"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   async function loadStats() {
     try {
-      const res = await fetch('https://pypi.org/pypi/vre-jupyterlab-extension/json');
-      const data = await res.json();
-      const releases = data.releases;
+      // Fetch overall downloads from pypistats API
+      const res = await fetch('https://pypistats.org/api/packages/vre-jupyterlab-extension/overall');
+      const json = await res.json();
       
       const labels = [];
       const dataset = [];
       
-      let totalReleases = 0;
+      let cumulativeDownloads = 0;
       
-      // Sort versions by upload time
-      const sortedReleases = Object.entries(releases)
-        .filter(([version, files]) => files.length > 0)
-        .sort((a, b) => new Date(a[1][0].upload_time) - new Date(b[1][0].upload_time));
+      // Filter out duplicate 'without_mirrors' entries and sort by date
+      const stats = json.data
+        .filter(entry => entry.category === 'with_mirrors')
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      sortedReleases.forEach(([version, files]) => {
-        totalReleases++;
-        // Use version for X axis
-        labels.push(version);
-        // Use cumulative count for Y axis
-        dataset.push(totalReleases);
+      stats.forEach(entry => {
+        cumulativeDownloads += entry.downloads;
+        labels.push(entry.date);
+        dataset.push(cumulativeDownloads);
       });
 
-      const ctx = document.getElementById('releasesChart').getContext('2d');
+      const ctx = document.getElementById('downloadsChart').getContext('2d');
       new Chart(ctx, {
         type: 'line',
         data: {
           labels: labels,
           datasets: [{
-            label: 'Cumulative Versions Published',
+            label: 'Cumulative Downloads',
             data: dataset,
             borderColor: '#5c6bc0',
             backgroundColor: 'rgba(92, 107, 192, 0.15)',
@@ -46,7 +44,7 @@ This page tracks the release cadence and version history of the VRE JupyterLab E
             fill: true,
             tension: 0.4,
             pointBackgroundColor: '#3949ab',
-            pointRadius: 4,
+            pointRadius: 0,
             pointHoverRadius: 6
           }]
         },
@@ -55,7 +53,7 @@ This page tracks the release cadence and version history of the VRE JupyterLab E
           plugins: {
             title: {
               display: true,
-              text: 'Cumulative Releases on PyPI',
+              text: 'Cumulative Downloads on PyPI',
               font: { size: 18, family: 'sans-serif' },
               color: 'var(--md-default-fg-color)'
             },
@@ -63,21 +61,26 @@ This page tracks the release cadence and version history of the VRE JupyterLab E
             tooltip: {
               callbacks: {
                 afterLabel: function(context) {
-                  const version = context.label;
-                  const uploadTime = new Date(releases[version][0].upload_time).toLocaleDateString();
-                  return `Published: ${uploadTime}`;
+                  return `Date: ${context.label}`;
                 }
               }
             }
           },
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
           scales: {
             x: { 
               grid: { color: 'var(--md-default-fg-color--lightest)' },
-              ticks: { color: 'var(--md-default-fg-color)' }
+              ticks: { 
+                color: 'var(--md-default-fg-color)',
+                maxTicksLimit: 10
+              }
             },
             y: { 
               beginAtZero: true, 
-              ticks: { stepSize: 1, color: 'var(--md-default-fg-color)' },
+              ticks: { color: 'var(--md-default-fg-color)' },
               grid: { color: 'var(--md-default-fg-color--lightest)' }
             }
           }
