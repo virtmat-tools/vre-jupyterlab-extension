@@ -1,11 +1,60 @@
 site_name: VRE JupyterLab Extension
 site_description: Documentation for the VRE JupyterLab Extension
 site_author: VRE Team
+repo_url: https://github.com/virtmat-tools/vre-jupyterlab-extension
+repo_name: virtmat-tools/vre-jupyterlab-extension
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
 nav:
   - Home: index.md
   - Installation: installation.md
-  - Extension: extension.md
-theme:
-  name: material
-plugins: []
-repo_url: https://github.com/virtmat-tools/vre-jupyterlab-extension
+  - Architecture:
+      - Project Structure: architecture/project-structure.md
+      - Syntax Highlighting: architecture/syntax-highlighting.md
+      - Execution Guard: architecture/execution-guard.md
+      - MIME Synchronization: architecture/mime-sync.md
+  - Developer Guide:
+      - Local Development: development.md
+      - Release Process: release-process.md
+  - Statistics: statistics.md
