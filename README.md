@@ -4,11 +4,15 @@
 [![CI](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 [![PyPI Downloads](https://static.pepy.tech/badge/vre-jupyterlab-extension)](https://pepy.tech/projects/vre-jupyterlab-extension)
 [![Python](https://img.shields.io/pypi/pyversions/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
 [![Wheel](https://img.shields.io/pypi/wheel/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
 [![JupyterLab](https://img.shields.io/badge/JupyterLab-4.x-F37626?logo=jupyter)](https://jupyterlab.readthedocs.io/en/stable/)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-green)](https://officiallygod.github.io/vre-jupyterlab-extension/)
+=======
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-green)](https://virtmat-tools.github.io/vre-jupyterlab-extension/)
+>>>>>>> Stashed changes
 =======
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-green)](https://virtmat-tools.github.io/vre-jupyterlab-extension/)
 >>>>>>> Stashed changes
