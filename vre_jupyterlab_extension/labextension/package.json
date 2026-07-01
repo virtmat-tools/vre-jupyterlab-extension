@@ -63,7 +63,7 @@
     "outputDir": "vre_jupyterlab_extension/labextension",
     "schemaDir": "schema",
     "_build": {
-      "load": "static/remoteEntry.5a1a1433b6c68c0258ea.js",
+      "load": "static/remoteEntry.0bb124cc4dd1554b709d.js",
       "extension": "./extension",
       "style": "./style"
     }

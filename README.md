@@ -1,99 +1,144 @@
-# vre-jupyterlab-extension
+<div align="center">
+  <img src="https://raw.githubusercontent.com/virtmat-tools/vre-jupyterlab-extension/refs/heads/main/style/vre-logo.png" alt="VRE logo" width="128" />
 
+  # VRE JupyterLab Extension
 
-[![CI](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
+  [![CI](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
+  [![PyPI Version](https://img.shields.io/pypi/v/vre-jupyterlab-extension.svg?color=blue)](https://pypi.org/project/vre-jupyterlab-extension)
+  [![Downloads](https://static.pepy.tech/badge/vre-jupyterlab-extension)](https://pepy.tech/projects/vre-jupyterlab-extension)
+  [![JupyterLab 4](https://img.shields.io/badge/JupyterLab-4.x-F37626?logo=jupyter)](https://jupyterlab.readthedocs.io/en/stable/)
+  [![Docs](https://img.shields.io/badge/Docs-GitHub%20Pages-green)](https://virtmat-tools.github.io/vre-jupyterlab-extension/)
+  [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
+</div>
+
+<br />
+
 <<<<<<< Updated upstream
-[![PyPI Downloads](https://static.pepy.tech/badge/vre-jupyterlab-extension)](https://pepy.tech/projects/vre-jupyterlab-extension)
-[![Python](https://img.shields.io/pypi/pyversions/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
-[![Wheel](https://img.shields.io/pypi/wheel/vre-jupyterlab-extension.svg)](https://pypi.org/project/vre-jupyterlab-extension)
-[![JupyterLab](https://img.shields.io/badge/JupyterLab-4.x-F37626?logo=jupyter)](https://jupyterlab.readthedocs.io/en/stable/)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-green)](https://officiallygod.github.io/vre-jupyterlab-extension/)
+> A prebuilt **JupyterLab 4** extension that provides advanced **CodeMirror 6 highlighting** for the VRE DSL and a smart **execution guard** to protect your VRE kernels.
+
+---
+
+## 🚀 Quick Install
+
+No Node tooling required! The provided wheel embeds the prebuilt labextension assets so you can jump right into your environment.
 =======
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-green)](https://virtmat-tools.github.io/vre-jupyterlab-extension/)
+The VRE JupyterLab Extension is a prebuilt integration designed to support the Virtual Research Environment (VRE) directly within JupyterLab 4. It provides domain-specific syntax highlighting and an intelligent execution guard to ensure experimental provenance is maintained.
+
+---
+
+## Installation
+
+Because the frontend assets are prebuilt and bundled directly into the Python wheel, you do not need Node.js or any frontend build tools to use this extension. 
+
+You can install it directly from PyPI:
 >>>>>>> Stashed changes
-[![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
-
-![VRE logo](https://raw.githubusercontent.com/virtmat-tools/vre-jupyterlab-extension/refs/heads/main/style/vre-logo.png)
-
-A prebuilt JupyterLab 4 extension that provides CodeMirror 6 highlighting for the VRE DSL and a simple execution guard.
-
-Why this package
-
-- No Node tooling required for end users as the wheel embeds the prebuilt labextension assets.
-- Installable via pip and ready to use in a JupyterLab environment.
-
-Quick install
 
 ```bash
 pip install vre-jupyterlab-extension
 jupyter lab
 ```
 
-Developer / Build from source
+<<<<<<< Updated upstream
+## 🛠️ Developer / Build from Source
+
+To hack on the extension, install the local dependencies, compile the frontend, and pack the wheel:
 
 ```bash
+# 1. Setup the project
 cd packages/vre-jupyterlab-extension
 npm ci
-npm run build
-python -m pip install --upgrade build
-python -m build --wheel --sdist
-python -m pip install dist/vre_jupyterlab_extension-*.whl
+
+# 2. Build the frontend bundle
+npm run build:prod
+
+# 3. Build the Python distribution packages (.whl, .tar.gz)
+python3 -m pip install --upgrade build
+python3 -m build --wheel --sdist
+
+# 4. Install your local wheel
+pip install dist/vre_jupyterlab_extension-*.whl
 ```
 
-Release (package-local)
+## 📦 Releases
 
-You can run the release flow from inside the package directory. The package provides a helper that:
+We provide a streamlined release script to handle versions, clean artifacts, and generate the final distribution files:
+=======
+## Core Features
 
-- prompts for the new semantic version
-- updates `package.json`, `setup.cfg`, and `vre_jupyterlab_extension/__init__.py`
-- removes build artifacts (`dist`, `build`, `lib`, `labextension`, `*.egg-info`, ...)
-- runs `npm ci`, builds frontend assets, and builds a Python wheel and sdist
+- **Syntax Highlighting:** The extension uses CodeMirror 6 to provide accurate, semantic highlighting for the VRE DSL, including custom keywords and measurement units.
+- **Execution Guard:** To preserve the integrity of your research, the extension includes a strict execution guard. It prevents VRE notebook cells from being edited after they have run and stops concurrent cell executions.
+- **MIME Type Synchronization:** The extension automatically detects VRE language kernels and ensures that cell inputs and outputs are coerced to the correct `text/x-vre` MIME type for seamless integration with the language server.
 
-Usage (from repository root):
+## Documentation
+
+For a comprehensive technical breakdown of how the extension manages CodeMirror Lexers, the execution guard, and the build pipeline, please refer to our official documentation:
+
+[**View the Full Documentation**](https://virtmat-tools.github.io/vre-jupyterlab-extension/)
+
+If you would like to run the documentation server locally, you can do so by running `mkdocs serve` from the repository root after installing the requirements.
+
+## Local Development
+
+If you are looking to contribute or build the project from source, you will need Node.js and a Python virtual environment.
+
+```bash
+# 1. Install Node.js dependencies
+cd packages/vre-jupyterlab-extension
+npm ci
+
+# 2. Build the production frontend bundle
+npm run build:prod
+
+# 3. Build the Python distribution packages
+python3 -m pip install --upgrade build
+python3 -m build --wheel --sdist
+
+# 4. Install your local build
+pip install dist/vre_jupyterlab_extension-*.whl
+```
+
+For testing during active development, we recommend using the symlink approach:
+
+```bash
+pip install -e .
+jupyter labextension develop . --overwrite
+```
+
+## Release Process
+
+We use an automated Python script to manage versioning and clean up build artifacts. When you are ready to publish a new release, simply run:
+>>>>>>> Stashed changes
 
 ```bash
 cd packages/vre-jupyterlab-extension
 npm run release
-# or run directly
-python3 ./scripts/release.py
 ```
+*Tip: Always use this tool rather than building manually for releases to ensure `package.json`, `setup.cfg`, and `__init__.py` versions stay perfectly synchronized.*
 
-Notes:
+<<<<<<< Updated upstream
+## 📚 Documentation & Resources
 
-- The README uses the PyPI badge to show the published version dynamically. Avoid hardcoding the version string in the README so the badge stays authoritative.
-- The package-local `release` script is intentionally self-contained and safe to run from the package folder.
+- 📖 **[Full Documentation](https://virtmat-tools.github.io/vre-jupyterlab-extension/)**
+- 🐍 **[PyPI Project Page](https://pypi.org/project/vre-jupyterlab-extension/)**
 
-Release checklist and publish flow
+*Local documentation development:* run `mkdocs serve` from this directory after installing `requirements_docs.txt`.
 
-1. Create a release branch or PR title containing `release` (for example: `release/0.1.4`).
-2. The workflow `.github/workflows/release-pr-checklist.yml` will auto-insert a release checklist into the PR description if missing.
-3. Complete the checklist items before merge.
-4. Merge, create and push a tag like `v0.1.4`.
-5. The publish workflow `.github/workflows/extension-publish.yml` publishes to PyPI and GitHub Packages.
-6. Detailed release checklist and commands: see `RELEASE.md`.
-
-Documentation
-
-Full documentation is available at https://virtmat-tools.github.io/vre-jupyterlab-extension/
-
-Local development: run `mkdocs serve` from this directory after installing `requirements_docs.txt`.
-
-Runtime requirements
+## ⚙️ Requirements
 
 - `jupyterlab>=4.2,<5`
 
-Notes
+## 📝 License
 
-- The wheel includes `labextension/` and `install.json`; `setup.py` copies these assets into the wheel during the build step.
+Distributed under the **BSD-3-Clause** License. See `LICENSE` for more information.
+=======
+This will guide you through updating the semantic version across all configuration files and will prepare a pristine build for PyPI.
 
-PyPI Repository:
-[vre-jupyterlab-extension](https://pypi.org/project/vre-jupyterlab-extension/)
+## Requirements
 
-Contributing
+- JupyterLab 4.2 or higher (`jupyterlab>=4.2,<5`)
+- Python 3.10 or higher
 
-Please see the repository CONTRIBUTING guidelines and open issues to discuss changes.
+## License
 
-License
-
-BSD-3-Clause
+This project is licensed under the BSD-3-Clause License. See the `LICENSE` file for more details.
+>>>>>>> Stashed changes

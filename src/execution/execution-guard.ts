@@ -9,7 +9,9 @@ import {
 	isExecutedSnapshot,
 	parseState,
 } from './freeze-state';
+import { isVreKernel } from '../notebook/mime-sync';
 
+const notebookPanels = new WeakMap<any, NotebookPanel>();
 let hooksConnected = false;
 let actionGuardsConnected = false;
 
@@ -186,8 +188,26 @@ async function blockExecutedCellRun(
 	return true;
 }
 
-function shouldGuardCell(cell: Cell): boolean {
-	return cell.model.type === 'code';
+function shouldGuardCell(cell: Cell, notebook?: any): boolean {
+	if (cell.model.type !== 'code') {
+		return false;
+	}
+	
+	// Fast-path: check the cell's mime type.
+	// If it is explicitly Python or another language (not VRE and not plain text), it's not a VRE cell.
+	const mime = (cell.model as any).mimeType;
+	if (mime && mime !== 'text/x-vre' && mime !== 'text/plain') {
+		return false;
+	}
+	
+	if (notebook) {
+		const panel = notebookPanels.get(notebook);
+		if (panel && !isVreKernel(panel)) {
+			return false;
+		}
+	}
+	
+	return true;
 }
 
 /**
@@ -220,12 +240,15 @@ function syncCellState(
 	cell: Cell,
 	isPluginEnabled: () => boolean,
 	isReadonlyDesignEnabled: () => boolean,
+	notebook?: any
 ): void {
-	if (!shouldGuardCell(cell)) {
+	if (cell.model.type !== 'code') {
 		return;
 	}
-	if (!isPluginEnabled() || !isReadonlyDesignEnabled()) {
+	if (!shouldGuardCell(cell, notebook) || !isPluginEnabled() || !isReadonlyDesignEnabled()) {
 		setReadonlyAppearance(cell, false);
+		cell.model.deleteMetadata(EXECUTION.metadataKey);
+		cell.model.deleteMetadata(EXECUTION.stateMetadataKey);
 		return;
 	}
 	setFrozenState(cell, isExecuted(cell), true);
@@ -247,8 +270,9 @@ function bindNotebookHooks(
 		if (!isPluginEnabled()) {
 			return;
 		}
+		const notebook = payload?.notebook;
 		const cell = payload?.cell as Cell | null;
-		if (!cell || !shouldGuardCell(cell)) {
+		if (!cell || !shouldGuardCell(cell, notebook)) {
 			return;
 		}
 		if (isExecuted(cell)) {
@@ -263,8 +287,9 @@ function bindNotebookHooks(
 		if (!isPluginEnabled()) {
 			return;
 		}
+		const notebook = payload?.notebook;
 		const cell = payload?.cell as Cell | null;
-		if (!cell || !shouldGuardCell(cell)) {
+		if (!cell || !shouldGuardCell(cell, notebook)) {
 			return;
 		}
 		const alreadyExecuted = isExecuted(cell);
@@ -315,6 +340,24 @@ function bindActionGuards(
 
 		const wrapped = async (...args: unknown[]) => {
 			const cell = readActiveCell(args);
+			
+			// Try to find the notebook instance in the arguments
+			let notebook: any = null;
+			for (const arg of args) {
+				if ((arg as INotebookLike)?.activeCell) {
+					notebook = arg;
+					break;
+				}
+			}
+
+			// Short-circuit if not a VRE notebook
+			if (notebook) {
+				const panel = notebookPanels.get(notebook);
+				if (panel && !isVreKernel(panel)) {
+					return original.apply(actions, args);
+				}
+			}
+
 			if (
 				cell &&
 				(await blockExecutedCellRun(cell, isPluginEnabled, isReadonlyDesignEnabled))
@@ -341,7 +384,7 @@ function syncNotebookView(
 	let refreshPending = false;
 	const refresh = () => {
 		notebook.widgets.forEach((cell) => {
-			syncCellState(cell, isPluginEnabled, isReadonlyDesignEnabled);
+			syncCellState(cell, isPluginEnabled, isReadonlyDesignEnabled, notebook);
 		});
 	};
 	const scheduleRefresh = () => {
@@ -390,10 +433,7 @@ function syncPanelCells(
 ): void {
 	const notebook = panel.content;
 	notebook.widgets.forEach((cell) => {
-		if (cell.model.type !== 'code') {
-			return;
-		}
-		syncCellState(cell, isPluginEnabled, isReadonlyDesignEnabled);
+		syncCellState(cell, isPluginEnabled, isReadonlyDesignEnabled, notebook);
 	});
 }
 
@@ -405,6 +445,10 @@ export function activateExecutionGuard(
 	isPluginEnabled: () => boolean,
 	isReadonlyDesignEnabled: () => boolean,
 ): void {
+	if (panel.content) {
+		notebookPanels.set(panel.content, panel);
+	}
+
 	(panel as any).__vreRefreshExecutionGuard = () => {
 		syncPanelCells(panel, isPluginEnabled, isReadonlyDesignEnabled);
 	};

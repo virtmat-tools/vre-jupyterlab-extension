@@ -4,13 +4,17 @@ import { LANGUAGE } from '../config/constants';
 /**
  * Return true when the notebook kernel looks like a VRE kernel.
  */
-function isVreKernel(panel: NotebookPanel): boolean {
-  const kernelName = panel.sessionContext.session?.kernel?.name?.toLowerCase() ?? '';
-  const displayName = panel.sessionContext.kernelDisplayName?.toLowerCase() ?? '';
+export function isVreKernel(panel: NotebookPanel): boolean {
+  const pref = panel.sessionContext.kernelPreference || {};
+  const kernelName = (panel.sessionContext.session?.kernel?.name || pref.name || '').toLowerCase();
+  const displayName = (panel.sessionContext.kernelDisplayName || '').toLowerCase();
+  const langName = (pref.language || '').toLowerCase();
   return (
     kernelName === LANGUAGE.kernelName ||
     kernelName.includes('vre') ||
-    displayName.includes('vre')
+    displayName.includes('vre') ||
+    langName.includes('vre') ||
+    langName.includes('virtmat')
   );
 }
 
