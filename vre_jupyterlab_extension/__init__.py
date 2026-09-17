@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 
-__version__ = "0.1.14"
+__version__ = "0.1.15"
 
 
 def _jupyter_labextension_paths():

@@ -1,6 +1,6 @@
 {
   "name": "vre-jupyterlab-extension",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard.",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -63,7 +63,7 @@
     "outputDir": "vre_jupyterlab_extension/labextension",
     "schemaDir": "schema",
     "_build": {
-      "load": "static/remoteEntry.ae64b597b51321651b14.js",
+      "load": "static/remoteEntry.45ce9e572682b15fb8fb.js",
       "extension": "./extension",
       "style": "./style"
     }
