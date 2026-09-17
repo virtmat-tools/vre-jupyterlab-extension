@@ -126,37 +126,24 @@ function setReadonlyAppearance(cell: Cell, executed: boolean): void {
 	cell.model.setMetadata('editable', !shouldLock);
 	cell.model.setMetadata('deletable', !shouldLock);
 
-	const inputEditorHost = cell.node.querySelector('.jp-InputArea-editor') as HTMLElement | null;
-	const cmEditorHost = cell.node.querySelector('.cm-editor') as HTMLElement | null;
+	const applyClasses = (on: boolean) => {
+		const inputEditorHost = cell.node?.querySelector('.jp-InputArea-editor') as HTMLElement | null;
+		const cmEditorHost = cell.node?.querySelector('.cm-editor') as HTMLElement | null;
 
-	const setClass = (element: HTMLElement | null | undefined, className: string, on: boolean) => {
-		if (!element) {
-			return;
-		}
+		inputEditorHost?.classList.toggle(EXECUTION.executedInputClass, on);
+		cmEditorHost?.classList.toggle(EXECUTION.executedEditorClass, on);
+
 		if (on) {
-			element.classList.add(className);
+			cell.addClass(EXECUTION.executedCellClass);
 		} else {
-			element.classList.remove(className);
+			cell.removeClass(EXECUTION.executedCellClass);
 		}
 	};
 
-	setClass(inputEditorHost, EXECUTION.executedInputClass, executed);
-	setClass(cmEditorHost, EXECUTION.executedEditorClass, executed);
-
-	// CodeMirror editor nodes may mount after first paint on reload. Re-apply
-	// classes on the next frame so executed styling is not missed.
-	if (executed && !cmEditorHost) {
-		requestAnimationFrame(() => {
-			const delayedCmEditorHost = cell.node.querySelector('.cm-editor') as HTMLElement | null;
-			setClass(delayedCmEditorHost, EXECUTION.executedEditorClass, true);
-		});
-	}
-
-	if (executed) {
-		cell.addClass(EXECUTION.executedCellClass);
-		return;
-	}
-	cell.removeClass(EXECUTION.executedCellClass);
+	applyClasses(shouldLock);
+	requestAnimationFrame(() => {
+		applyClasses(shouldLock);
+	});
 }
 
 /**
@@ -188,25 +175,51 @@ async function blockExecutedCellRun(
 	return true;
 }
 
+/**
+ * Safely extract text content from a cell model across JupyterLab variants.
+ */
+function getCellText(cell: Cell): string {
+	if (!cell || !cell.model) {
+		return '';
+	}
+	const sharedModel = cell.model.sharedModel as any;
+	if (typeof sharedModel?.getSource === 'function') {
+		return sharedModel.getSource() ?? '';
+	}
+	const val = (cell.model as any).value;
+	if (typeof val?.text === 'string') {
+		return val.text;
+	}
+	return '';
+}
+
+/**
+ * Return true when a cell should be subject to execution guard rules.
+ */
 function shouldGuardCell(cell: Cell, notebook?: any): boolean {
 	if (cell.model.type !== 'code') {
 		return false;
 	}
-	
+
+	// Empty cells (nothing inside them) must never be disabled or frozen
+	if (getCellText(cell).trim() === '') {
+		return false;
+	}
+
 	// Fast-path: check the cell's mime type.
 	// If it is explicitly Python or another language (not VRE and not plain text), it's not a VRE cell.
 	const mime = (cell.model as any).mimeType;
 	if (mime && mime !== 'text/x-vre' && mime !== 'text/plain') {
 		return false;
 	}
-	
+
 	if (notebook) {
 		const panel = notebookPanels.get(notebook);
 		if (panel && !isVreKernel(panel)) {
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 
