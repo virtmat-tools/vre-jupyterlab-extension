@@ -6,6 +6,7 @@ import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { activateExecutionGuard, refreshExecutionGuard } from './execution/execution-guard';
 import { createVreLanguageExtension } from './language/vre-language';
+import { attachEmptyLineCompleter } from './notebook/completer-trigger';
 import { attachNotebookMimeSync, refreshNotebookMime } from './notebook/mime-sync';
 import { COMMANDS, LANGUAGE, PLUGIN_ID, SETTINGS, UI } from './config/constants';
 import { DEFAULT_LANGUAGE_OPTIONS } from './config/defaults';
@@ -144,6 +145,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 		const wireNotebookPanel = (panel: NotebookPanel) => {
 			attachNotebookMimeSync(panel, () => useVreMime());
 			activateExecutionGuard(panel, () => isOn(), () => showReadonlyDesign());
+			attachEmptyLineCompleter(panel, app, () => isOn());
 		};
 
 		notebookTracker.widgetAdded.connect((_sender, panel) => {
