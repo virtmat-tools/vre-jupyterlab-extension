@@ -6,7 +6,7 @@ This guide details the procedures required to set up a local development environ
 
 You will need the following toolchain installed on your workstation:
 
-*   Python 3.10 or higher
+*   Python 3.11 or higher
 *   Node.js (v18 or v20 recommended)
 *   npm (v9 or higher)
 
