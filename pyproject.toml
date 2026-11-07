@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "vre-jupyterlab-extension"
-version = "0.1.15"
+version = "0.1.16"
 description = "VRE JupyterLab Extension with VRE DSL highlighting and notebook execution guard"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Framework :: Jupyter",
@@ -20,7 +20,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",

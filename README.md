@@ -3,7 +3,6 @@
 
   # VRE JupyterLab Extension
 
-  [![CI](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml/badge.svg)](https://github.com/virtmat-tools/vre-jupyterlab-extension/actions/workflows/extension-pr-ci.yml)
   [![PyPI Version](https://img.shields.io/pypi/v/vre-jupyterlab-extension.svg?color=blue)](https://pypi.org/project/vre-jupyterlab-extension)
   [![Downloads](https://static.pepy.tech/badge/vre-jupyterlab-extension)](https://pepy.tech/projects/vre-jupyterlab-extension)
   [![JupyterLab 4](https://img.shields.io/badge/JupyterLab-4.x-F37626?logo=jupyter)](https://jupyterlab.readthedocs.io/en/stable/)
@@ -100,14 +99,14 @@ npm run release
 ## Documentation & Resources
 
 - **[PyPI Project Page](https://pypi.org/project/vre-jupyterlab-extension/)**
-- **[Full Documentation](https://virtmat-tools.github.io/vre-jupyterlab-extension/site/)**
+- **[Full Documentation](https://virtmat-tools.github.io/vre-jupyterlab-extension/)**
 
 *Local documentation development:* run `mkdocs serve` from this directory after installing `requirements_docs.txt`.
 
 ## Requirements
 
 - JupyterLab 4.2 or higher (`jupyterlab>=4.2,<5`)
-- Python 3.10 or higher
+- Python 3.11 or higher
 
 ## License
 

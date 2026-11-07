@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_jupyterlab_application_top=self.rspackChunk_jupyterlab_application_top||[]).push([[8468],{52655(e,p,t){t.d(p,{createArchitectureServices:()=>a.S});var a=t(5112);t(78069)}}]);

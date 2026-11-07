@@ -1,6 +1,7 @@
 site_name: VRE JupyterLab Extension
 site_description: Documentation for the VRE JupyterLab Extension
 site_author: VRE Team
+site_url: https://virtmat-tools.github.io/vre-jupyterlab-extension/
 repo_url: https://github.com/virtmat-tools/vre-jupyterlab-extension
 repo_name: virtmat-tools/vre-jupyterlab-extension
 
